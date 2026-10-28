@@ -1,0 +1,33 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+.env/
+env/
+ENV/
+
+# Data and Cache
+data/
+datasets/
+openml/
+.cache/
+
+# Artifacts & Temporary files
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# Large model binaries if generated locally
+# models/*.joblib
+# Keep lightweight files
+!models/.gitkeep
+!results/.gitkeep
+
+# IDE files
+.vscode/
+.idea/
+.DS_Store
