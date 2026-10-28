@@ -8,7 +8,7 @@ Includes an End-to-End Multi-Digit Number Segmentation Pipeline.
 
 import json
 from pathlib import Path
-from typing import Optional, Dict, Any, List
+from typing import Optional, Dict, Any, List, Tuple
 import numpy as np
 import pandas as pd
 import streamlit as st
@@ -469,6 +469,12 @@ def get_cached_comparison_table() -> Optional[pd.DataFrame]:
         except Exception:
             return None
     return None
+
+
+@st.cache_data(show_spinner="Loading MNIST benchmark dataset (70,000 samples)...")
+def get_cached_raw_mnist() -> Tuple[np.ndarray, np.ndarray]:
+    """Loads or downloads raw MNIST dataset with Streamlit caching."""
+    return download_or_load_raw_mnist()
 
 
 # ==============================================================================
@@ -1408,7 +1414,7 @@ elif st.session_state["current_page"] == "Dataset Explorer":
     )
 
     try:
-        X_all, y_all = download_or_load_raw_mnist()
+        X_all, y_all = get_cached_raw_mnist()
         data_loaded = True
     except Exception as e:
         st.warning(f"Could not load raw MNIST dataset: {e}")

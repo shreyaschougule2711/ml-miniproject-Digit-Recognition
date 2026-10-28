@@ -1,33 +1,56 @@
-# Byte-compiled / optimized / DLL files
+# Python Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
+*.so
 
 # Virtual environments
+.venv/
 venv/
-.env/
 env/
 ENV/
+.env/
+env.bak/
+venv.bak/
 
-# Data and Cache
-data/
+# Environment variables, credentials, and secrets
+.env
+.env.*
+secrets.toml
+*.key
+*.pem
+*.cert
+credentials.json
+.streamlit/secrets.toml
+
+# Datasets and cache files (large raw downloads)
+data/*.npz
+data/*.csv
+data/*.gz
 datasets/
 openml/
 .cache/
+!data/.gitkeep
 
-# Artifacts & Temporary files
+# Testing and coverage artifacts
 .pytest_cache/
 .coverage
 htmlcov/
+.tox/
 *.log
 
-# Large model binaries if generated locally
-# models/*.joblib
-# Keep lightweight files
-!models/.gitkeep
-!results/.gitkeep
+# Operating System files
+.DS_Store
+Thumbs.db
+desktop.ini
 
-# IDE files
+# IDE and Editor files
 .vscode/
 .idea/
-.DS_Store
+*.swp
+*.swo
+
+# Keep serialized models and evaluation results in Git
+!models/*.joblib
+!models/.gitkeep
+!results/**

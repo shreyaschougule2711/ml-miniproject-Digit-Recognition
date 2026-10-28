@@ -1,12 +1,15 @@
-# Handwritten Digit Recognition Studio - Dependencies
-numpy>=1.26.0
-pandas>=2.1.0
-scikit-learn>=1.4.0
-matplotlib>=3.8.0
-seaborn>=0.13.0
-Pillow>=10.0.0
-joblib>=1.3.0
+# DigitAI Studio — Handwritten Digit Recognition
+# Production Dependencies for Streamlit Community Cloud & Local Deployment
+
 streamlit>=1.35.0
-streamlit-drawable-canvas==0.9.3
+streamlit-drawable-canvas>=0.9.3
+numpy>=1.26.0,<3.0.0
+scipy>=1.11.0,<2.0.0
+pandas>=2.1.0,<4.0.0
+scikit-learn>=1.4.0,<2.0.0
+matplotlib>=3.8.0,<4.0.0
+seaborn>=0.13.0,<1.0.0
+Pillow>=10.0.0,<13.0.0
+joblib>=1.3.0,<2.0.0
 opencv-python-headless>=4.8.0
 pytest>=8.0.0

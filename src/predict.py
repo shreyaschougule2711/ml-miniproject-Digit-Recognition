@@ -46,11 +46,15 @@ def load_model(model_key: str) -> Optional[Any]:
 
 def are_models_available() -> Dict[str, bool]:
     """
-    Checks if trained model artifacts exist on disk.
+    Checks if trained model artifacts exist on disk and have non-trivial size (>1KB).
     """
-    return {
-        key: path.exists() for key, path in config.MODEL_PATHS.items()
-    }
+    res = {}
+    for key, path in config.MODEL_PATHS.items():
+        try:
+            res[key] = path.exists() and path.stat().st_size > 1000
+        except Exception:
+            res[key] = False
+    return res
 
 
 def softmax(scores: np.ndarray) -> np.ndarray:
