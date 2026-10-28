@@ -193,3 +193,6 @@ The following table reflects genuine test metrics evaluated on the untouched MNI
   1. Feature extraction using HOG (Histogram of Oriented Gradients) or PCA dimensionality reduction.
   2. Integration of Convolutional Neural Networks (CNNs) with data augmentation (random rotation, elastic distortions).
   3. Continuous multi-digit recognition using sliding window segmentation.
+ 
+     ## 10. Project link
+     https://ml-miniproject-digit-recognition-s7tzhwrftvm3tkuhnsf8tm.streamlit.app/
