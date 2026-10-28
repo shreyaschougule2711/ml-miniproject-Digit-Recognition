@@ -34,6 +34,36 @@ except ImportError:
     CANVAS_AVAILABLE = False
 
 
+def render_st_canvas(**kwargs):
+    """
+    Renders st_canvas with adaptive keyword handling to support both legacy
+    (<=0.9.3) and modern (>=0.10.0) versions of streamlit-drawable-canvas.
+    Modern versions require return_image_data=True to serialize canvas pixels.
+    """
+    if not CANVAS_AVAILABLE:
+        return None
+    try:
+        return st_canvas(**kwargs, return_image_data=True)
+    except TypeError:
+        return st_canvas(**kwargs)
+
+
+def safe_get_canvas_image(canvas_obj) -> Optional[np.ndarray]:
+    """
+    Safely extracts image_data from a CanvasResult object, handling
+    uninitialized states, type differences, and version-specific RuntimeErrors.
+    """
+    if canvas_obj is None or isinstance(canvas_obj, type):
+        return None
+    try:
+        img_data = getattr(canvas_obj, "image_data", None)
+        if img_data is not None and isinstance(img_data, np.ndarray) and img_data.size > 0:
+            return img_data
+    except Exception:
+        return None
+    return None
+
+
 # ==============================================================================
 # STREAMLIT PAGE CONFIGURATION
 # ==============================================================================
@@ -924,7 +954,7 @@ elif st.session_state["current_page"] == "Recognize Digits":
         with col_canvas_box:
             st.markdown("#### Drawing Canvas")
             if CANVAS_AVAILABLE:
-                canvas_result = st_canvas(
+                canvas_result = render_st_canvas(
                     fill_color="rgba(255, 255, 255, 0)",
                     stroke_width=stroke_width,
                     stroke_color=stroke_color,
@@ -939,8 +969,9 @@ elif st.session_state["current_page"] == "Recognize Digits":
                 canvas_result = None
 
             if st.button("🔍 Recognize Drawn Digit", type="primary", use_container_width=True, key="btn_rec_draw"):
-                if canvas_result is not None and getattr(canvas_result, "image_data", None) is not None:
-                    active_image_input = canvas_result.image_data
+                img_data = safe_get_canvas_image(canvas_result)
+                if img_data is not None:
+                    active_image_input = img_data
                     trigger_prediction = True
                 else:
                     st.warning("⚠️ Canvas is empty. Please draw a digit.")
@@ -1135,7 +1166,7 @@ elif st.session_state["current_page"] == "Multi-Digit Recognition":
             wide_stroke_width = st.slider("Pen Thickness", min_value=12, max_value=28, value=18, step=2, key="wide_stroke_width")
 
         if CANVAS_AVAILABLE:
-            wide_canvas = st_canvas(
+            wide_canvas = render_st_canvas(
                 fill_color="rgba(255, 255, 255, 0)",
                 stroke_width=wide_stroke_width,
                 stroke_color=wide_stroke_color,
@@ -1150,8 +1181,9 @@ elif st.session_state["current_page"] == "Multi-Digit Recognition":
             wide_canvas = None
 
         if st.button("🔍 Recognize Drawn Number", type="primary", use_container_width=True, key="btn_rec_wide"):
-            if wide_canvas is not None and getattr(wide_canvas, "image_data", None) is not None:
-                multi_image_input = wide_canvas.image_data
+            wide_img_data = safe_get_canvas_image(wide_canvas)
+            if wide_img_data is not None:
+                multi_image_input = wide_img_data
                 trigger_multi_prediction = True
             else:
                 st.warning("⚠️ Canvas is empty. Please draw a number.")
