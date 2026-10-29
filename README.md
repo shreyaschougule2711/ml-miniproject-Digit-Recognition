@@ -251,5 +251,17 @@ The interactive web application is deployed on Streamlit Community Cloud:
 
 ---
 
+<<<<<<< HEAD
 ## 📄 11. License
 This project is open-source under the [MIT License](LICENSE).
+=======
+## ⚠️ 9. Limitations & Future Scope
+- **Current Limitations**: Raw pixel features lack translation and rotation invariance; severely tilted or rotated digits may reduce recognition accuracy.
+- **Future Scope**:
+  1. Feature extraction using HOG (Histogram of Oriented Gradients) or PCA dimensionality reduction.
+  2. Integration of Convolutional Neural Networks (CNNs) with data augmentation (random rotation, elastic distortions).
+  3. Continuous multi-digit recognition using sliding window segmentation.
+ 
+     ## 10. Project link
+     https://ml-miniproject-digit-recognition-s7tzhwrftvm3tkuhnsf8tm.streamlit.app/
+>>>>>>> 2d83dff2a98730d8d8750ef5133562cc2cdeb332
