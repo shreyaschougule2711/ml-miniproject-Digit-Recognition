@@ -1,4 +1,5 @@
 Model Key,Model,Accuracy,Macro Precision,Macro Recall,Macro F1,Training Time (s),Prediction Time (s),Inference Latency (ms/sample)
-knn,k-Nearest Neighbors,0.946,0.94777,0.94556,0.94605,0.021,1.219,36.27
-linear_svm,Linear SVM (Calibrated),0.9055,0.90584,0.90361,0.90387,7.888,0.06,16.96
-rbf_svm,RBF Kernel SVM,0.9655,0.96573,0.96511,0.96533,179.8,12.975,13.2
+knn,k-Nearest Neighbors,0.946,0.94777,0.94556,0.94605,0.021,0.948,32.8
+linear_svm,Linear SVM (Calibrated),0.9055,0.90584,0.90361,0.90387,7.888,0.061,10.79
+rbf_svm,RBF Kernel SVM,0.9655,0.96573,0.96511,0.96533,179.8,7.442,4.03
+ensemble,Ensemble Voting Classifier,0.9605,0.96073,0.95981,0.96014,187.709,8.304,46.21

@@ -56,6 +56,7 @@ MODEL_PATHS = {
     "knn": MODELS_DIR / "knn_model.joblib",
     "linear_svm": MODELS_DIR / "linear_svm_model.joblib",
     "rbf_svm": MODELS_DIR / "rbf_svm_model.joblib",
+    "ensemble": MODELS_DIR / "ensemble_voting_model.joblib",
 }
 
 # Artifact Paths

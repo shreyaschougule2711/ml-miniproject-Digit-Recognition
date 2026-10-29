@@ -24,6 +24,7 @@ def test_are_models_available_keys():
     assert "knn" in status
     assert "linear_svm" in status
     assert "rbf_svm" in status
+    assert "ensemble" in status
     assert all(isinstance(v, bool) for v in status.values())
 
 

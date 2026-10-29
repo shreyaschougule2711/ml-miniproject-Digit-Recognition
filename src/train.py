@@ -39,6 +39,7 @@ from sklearn.calibration import CalibratedClassifierCV
 import config
 from src.data_loader import get_data_splits
 from src.preprocessing import normalize_and_flatten
+from src.ensemble import create_ensemble_from_base_models
 from src.evaluate import evaluate_model, create_comparison_dataframe
 from src.visualization import (
     plot_confusion_matrix,
@@ -237,15 +238,24 @@ def run_training_pipeline(
     print(f"[Pipeline] X_train shape: {X_train.shape}, dtype: {X_train.dtype}")
     print(f"[Pipeline] X_test shape:  {X_test.shape},  dtype: {X_test.dtype}")
 
-    # 3. Train all 3 models
+    # 3. Train all 3 base models
     knn_model, knn_params, knn_train_time = tune_and_train_knn(X_train, y_train, tune=tune)
     linear_svm_model, linear_svm_params, linear_svm_train_time = tune_and_train_linear_svm(X_train, y_train, tune=tune)
     rbf_svm_model, rbf_svm_params, rbf_svm_train_time = tune_and_train_rbf_svm(X_train, y_train, tune=tune)
+
+    # 4. Construct Ensemble Voting Classifier
+    print("\n" + "=" * 50)
+    print(">>> [4/4] Assembling Hard Majority Voting Classifier...")
+    print("=" * 50)
+    ensemble_model = create_ensemble_from_base_models(knn_model, linear_svm_model, rbf_svm_model)
+    ensemble_params = {"voting": "hard", "tie_breaker": "rbf_svm", "base_models": ["knn", "linear_svm", "rbf_svm"]}
+    ensemble_train_time = round(knn_train_time + linear_svm_train_time + rbf_svm_train_time, 3)
 
     models_dict = {
         "knn": (knn_model, "k-Nearest Neighbors", knn_params, knn_train_time),
         "linear_svm": (linear_svm_model, "Linear SVM (Calibrated)", linear_svm_params, linear_svm_train_time),
         "rbf_svm": (rbf_svm_model, "RBF Kernel SVM", rbf_svm_params, rbf_svm_train_time),
+        "ensemble": (ensemble_model, "Ensemble Voting Classifier", ensemble_params, ensemble_train_time),
     }
 
     # 4. Save model artifacts
